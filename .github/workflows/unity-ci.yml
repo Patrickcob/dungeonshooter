@@ -1,0 +1,30 @@
+name: Unity Windows CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Unity
+      uses: game-ci/unity-actions@v1
+      with:
+        unityVersion: 2021.1.7f1
+        unityModules: 'unity.game.foundation'
+
+    - name: Build Unity Project
+      run: |
+        # Restore NuGet packages
+        nuget restore YourProject.sln
+
+        # Build the Unity project
+        UNITY_PATH="C:\Program Files\Unity\Hub\Editor\2021.1.7f1\Editor\Unity.exe"
+        "$UNITY_PATH" -batchmode -nographics -projectPath . -executeMethod UnityEditor.BuildPlayerWindow+BuildMethod.PerformBuild -logFile build.log -quit
