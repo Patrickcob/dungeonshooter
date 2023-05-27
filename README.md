@@ -1,6 +1,4 @@
-[![CodeQL](https://github.com/Patrickcob/dungeonshooter/actions/workflows/codeql.yml/badge.svg)](https://github.com/Patrickcob/dungeonshooter/actions/workflows/codeql.yml)
-
-[![Unity Windows CI](https://github.com/Patrickcob/dungeonshooter/actions/workflows/unity-ci.yml/badge.svg)](https://github.com/Patrickcob/dungeonshooter/actions/workflows/unity-ci.yml)
+[![Dungeon Shooter Test and Build](https://github.com/Patrickcob/dungeonshooter/actions/workflows/UnityCI-CD.yml/badge.svg)](https://github.com/Patrickcob/dungeonshooter/actions/workflows/UnityCI-CD.yml)
 
 # Dungeon Crawler Shooter - Unity Project
 
