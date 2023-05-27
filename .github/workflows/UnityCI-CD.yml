@@ -6,46 +6,37 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
   UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-
+       
 jobs:
-  buildWindows:
-    name: Build for Windows 🖥️
+  build:
+    name: Build on Windows64
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
-      - name: Checkout code
+      # Checkout
+      - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Create LFS file list
-        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
-
-      - name: Restore LFS cache
-        uses: actions/cache@v3
-        id: lfs-cache
         with:
-          path: .git/lfs
-          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+          lfs: true
 
-      - name: Git LFS Pull
-        run: |
-          git lfs pull
-          git add .
-          git reset --hard
-
-      - name: Restore Library cache
-        uses: actions/cache@v2
+      # Cache
+      - uses: actions/cache@v2
         with:
           path: Library
-          key: Library-build-StandaloneWindows64
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
-            Library-build-
             Library-
 
-      - uses: game-ci/unity-builder@v2
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
 
+      # Output
       - uses: actions/upload-artifact@v2
         with:
           name: build-StandaloneWindows64
